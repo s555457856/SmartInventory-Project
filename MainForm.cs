@@ -64,7 +64,7 @@ namespace SmartInventory
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (ReadInput(out Product p)) return;
+            if (!ReadInput(out Product p)) return;
             //插入資料庫
             DbHelper.InsertProduct(p);
             all.Add(p);
@@ -123,11 +123,22 @@ namespace SmartInventory
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgv.CurrentRow == null) return;
-            var p = view[dgv.CurrentRow.Index];
+
+            int index = dgv.CurrentRow.Index;
+            var p = view[index];
+            if (MessageBox.Show($"是否刪除:{p.Id}-{p.Name}", "確認",
+                MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+
             DbHelper.DeleteProduct(p);
             all = DbHelper.GetAllProducts();
             RefreshView();
 
+            if (view.Count > 0)
+            {
+                if (index >= view.Count) index = view.Count - 1;
+            }
+            //維持當下位置
+            dgv.Rows[index].Selected = true;
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -143,6 +154,24 @@ namespace SmartInventory
             txtCategory.Text = p.Category;
             txtQuantity.Text = p.Quantity.ToString();
             txtPrice.Text = p.Price.ToString();
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (!ReadInput(out Product p)) return;
+            if (dgv.CurrentRow == null) return;
+
+
+            int index = dgv.CurrentRow.Index;
+            //取得對應商品的實際ID
+            p.Id = view[index].Id;
+            
+            if (MessageBox.Show($"是否更新:{p.Id}-{p.Name}", "確認",
+                MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+            //更新
+            DbHelper.UpdateProducts(p);
+            all = DbHelper.GetAllProducts();
+            RefreshView();
         }
 
 
