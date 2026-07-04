@@ -1,5 +1,6 @@
 using SmartInventory.Data;
 using SmartInventory.Models;
+using SmartInventory.Services;
 using System.ComponentModel;
 using System.Diagnostics;
 
@@ -25,6 +26,13 @@ namespace SmartInventory
             dgv.AllowUserToAddRows = false;
             dgv.AllowUserToDeleteRows = false;
             dgv.MultiSelect = false;
+
+            //設定combox
+            cmbCategory.Items.Add("全部");
+            cmbCategory.Items.AddRange(ProductService.Categories);
+            cmbCategory.SelectedIndex = 0;
+            cmbInputCategory.Items.AddRange(ProductService.Categories);
+
 
             DbHelper.InitDb();
             all = DbHelper.GetAllProducts();
@@ -54,9 +62,11 @@ namespace SmartInventory
 
         public void RefreshView()
         {
+            //篩選機制
+            var filtered = ProductService.Search(all, txtSearch.Text.Trim(), cmbCategory.Text);
             view.Clear();
 
-            foreach (var p in all)
+            foreach (var p in filtered)
             {
                 view.Add(p);
             }
@@ -85,7 +95,8 @@ namespace SmartInventory
         }
         private void ClearInput()
         {
-            TextBox[] boxs = { txtName, txtCategory, txtPrice, txtQuantity };
+            TextBox[] boxs = { txtName, txtPrice, txtQuantity };
+            //cmbInputCategory.SelectedIndex =0;
             foreach (var b in boxs) b.Text = string.Empty;
 
             //txtName.Text =string.Empty; 被簡化
@@ -97,7 +108,7 @@ namespace SmartInventory
         private bool ReadInput(out Product product)
         {
             product = new Product();
-            if (txtName.Text.Trim() == "" || txtCategory.Text.Trim() == "")
+            if (txtName.Text.Trim() == "" || cmbInputCategory.Text.Trim() == "")
             {
                 MessageBox.Show("商品名稱或分類不能為空!");
                 return false;
@@ -114,7 +125,7 @@ namespace SmartInventory
                 return false;
             }
             product.Name = txtName.Text;
-            product.Category = txtCategory.Text;
+            product.Category = cmbInputCategory.Text;
             product.Quantity = q;
             product.Price = p;
             return true;
@@ -151,7 +162,7 @@ namespace SmartInventory
             if (e.RowIndex < 0 || e.RowIndex >= view.Count) return;
             var p = view[e.RowIndex];
             txtName.Text = p.Name;
-            txtCategory.Text = p.Category;
+            cmbInputCategory.Text = p.Category;
             txtQuantity.Text = p.Quantity.ToString();
             txtPrice.Text = p.Price.ToString();
         }
@@ -165,13 +176,24 @@ namespace SmartInventory
             int index = dgv.CurrentRow.Index;
             //取得對應商品的實際ID
             p.Id = view[index].Id;
-            
+
             if (MessageBox.Show($"是否更新:{p.Id}-{p.Name}", "確認",
                 MessageBoxButtons.YesNo) != DialogResult.Yes) return;
             //更新
             DbHelper.UpdateProducts(p);
             all = DbHelper.GetAllProducts();
             RefreshView();
+        }
+
+        private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshView();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            RefreshView();
+
         }
 
 

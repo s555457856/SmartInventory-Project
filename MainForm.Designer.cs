@@ -35,7 +35,6 @@ partial class MainForm
             label5 = new Label();
             txtQuantity = new TextBox();
             label4 = new Label();
-            txtCategory = new TextBox();
             label3 = new Label();
             txtName = new TextBox();
             flowLayoutPanel2 = new FlowLayoutPanel();
@@ -43,6 +42,7 @@ partial class MainForm
             btnUpdate = new Button();
             btnDelete = new Button();
             btnClear = new Button();
+            cmbInputCategory = new ComboBox();
             dgv = new DataGridView();
             flowLayoutPanel3 = new FlowLayoutPanel();
             lblTotal = new Label();
@@ -86,6 +86,7 @@ partial class MainForm
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(180, 23);
             txtSearch.TabIndex = 1;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // label2
             // 
@@ -106,6 +107,7 @@ partial class MainForm
             cmbCategory.Name = "cmbCategory";
             cmbCategory.Size = new Size(121, 23);
             cmbCategory.TabIndex = 3;
+            cmbCategory.SelectedIndexChanged += cmbCategory_SelectedIndexChanged;
             // 
             // btnCheck
             // 
@@ -127,10 +129,10 @@ partial class MainForm
             tableLayoutPanel2.Controls.Add(label5, 0, 2);
             tableLayoutPanel2.Controls.Add(txtQuantity, 1, 2);
             tableLayoutPanel2.Controls.Add(label4, 0, 1);
-            tableLayoutPanel2.Controls.Add(txtCategory, 1, 1);
             tableLayoutPanel2.Controls.Add(label3, 0, 0);
             tableLayoutPanel2.Controls.Add(txtName, 1, 0);
             tableLayoutPanel2.Controls.Add(flowLayoutPanel2, 1, 4);
+            tableLayoutPanel2.Controls.Add(cmbInputCategory, 1, 1);
             tableLayoutPanel2.Dock = DockStyle.Left;
             tableLayoutPanel2.Location = new Point(0, 39);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -189,14 +191,6 @@ partial class MainForm
             label4.Size = new Size(31, 15);
             label4.TabIndex = 2;
             label4.Text = "分類";
-            // 
-            // txtCategory
-            // 
-            txtCategory.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtCategory.Location = new Point(40, 32);
-            txtCategory.Name = "txtCategory";
-            txtCategory.Size = new Size(157, 23);
-            txtCategory.TabIndex = 3;
             // 
             // label3
             // 
@@ -269,13 +263,23 @@ partial class MainForm
             btnClear.UseVisualStyleBackColor = true;
             btnClear.Click += btnClear_Click;
             // 
+            // cmbInputCategory
+            // 
+            cmbInputCategory.Anchor = AnchorStyles.None;
+            cmbInputCategory.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbInputCategory.FormattingEnabled = true;
+            cmbInputCategory.Location = new Point(40, 32);
+            cmbInputCategory.Name = "cmbInputCategory";
+            cmbInputCategory.Size = new Size(157, 23);
+            cmbInputCategory.TabIndex = 9;
+            // 
             // dgv
             // 
             dgv.AllowUserToAddRows = false;
             dgv.AllowUserToDeleteRows = false;
+            dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv.Dock = DockStyle.Fill;
             dgv.Location = new Point(200, 39);
             dgv.Name = "dgv";
             dgv.ReadOnly = true;
@@ -348,7 +352,6 @@ partial class MainForm
     private Label label3;
     private TextBox txtPrice;
     private TextBox txtQuantity;
-    private TextBox txtCategory;
     private TextBox txtName;
     private FlowLayoutPanel flowLayoutPanel2;
     private Button btnAdd;
@@ -358,5 +361,6 @@ partial class MainForm
     private FlowLayoutPanel flowLayoutPanel3;
     private Label lblTotal;
         private Button btnClear;
+        private ComboBox cmbInputCategory;
     }
 }
