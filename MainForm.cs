@@ -64,17 +64,35 @@ namespace SmartInventory
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (ReadInput(out Product p))
-            {
-                //插入資料庫
-                DbHelper.InsertProduct(p);
-                all.Add(p);
-                //all= DbHelper.GetAllProducts(); 同上一行
-                //更新畫面
-                RefreshView();
-            }
-        }
+            if (ReadInput(out Product p)) return;
+            //插入資料庫
+            DbHelper.InsertProduct(p);
+            all.Add(p);
+            //all= DbHelper.GetAllProducts(); 同上一行
+            //更新畫面
+            RefreshView();
+            ClearInput();
 
+            //if (ReadInput(out Product p))
+            //{
+            //    //插入資料庫
+            //    DbHelper.InsertProduct(p);
+            //    all.Add(p);
+            //    //all= DbHelper.GetAllProducts(); 同上一行
+            //    //更新畫面
+            //    RefreshView();
+            //}
+        }
+        private void ClearInput()
+        {
+            TextBox[] boxs = { txtName, txtCategory, txtPrice, txtQuantity };
+            foreach (var b in boxs) b.Text = string.Empty;
+
+            //txtName.Text =string.Empty; 被簡化
+            //txtCategory.Text= string.Empty;
+            //txtPrice.Text = string.Empty;
+            //txtQuantity.Text = string.Empty;
+        }
 
         private bool ReadInput(out Product product)
         {
@@ -95,11 +113,36 @@ namespace SmartInventory
                 MessageBox.Show("數量輸入不正確!");
                 return false;
             }
-            product.Name =txtName.Text;
-            product.Category=txtCategory.Text;
+            product.Name = txtName.Text;
+            product.Category = txtCategory.Text;
             product.Quantity = q;
             product.Price = p;
             return true;
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgv.CurrentRow == null) return;
+            var p = view[dgv.CurrentRow.Index];
+            DbHelper.DeleteProduct(p);
+            all = DbHelper.GetAllProducts();
+            RefreshView();
+
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ClearInput();
+        }
+
+        private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= view.Count) return;
+            var p = view[e.RowIndex];
+            txtName.Text = p.Name;
+            txtCategory.Text = p.Category;
+            txtQuantity.Text = p.Quantity.ToString();
+            txtPrice.Text = p.Price.ToString();
         }
 
 

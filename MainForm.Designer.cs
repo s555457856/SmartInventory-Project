@@ -42,6 +42,7 @@ partial class MainForm
             btnAdd = new Button();
             btnUpdate = new Button();
             btnDelete = new Button();
+            btnClear = new Button();
             dgv = new DataGridView();
             flowLayoutPanel3 = new FlowLayoutPanel();
             lblTotal = new Label();
@@ -221,6 +222,7 @@ partial class MainForm
             flowLayoutPanel2.Controls.Add(btnAdd);
             flowLayoutPanel2.Controls.Add(btnUpdate);
             flowLayoutPanel2.Controls.Add(btnDelete);
+            flowLayoutPanel2.Controls.Add(btnClear);
             flowLayoutPanel2.Dock = DockStyle.Fill;
             flowLayoutPanel2.Location = new Point(3, 119);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
@@ -254,6 +256,17 @@ partial class MainForm
             btnDelete.TabIndex = 2;
             btnDelete.Text = "刪除";
             btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // btnClear
+            // 
+            btnClear.Location = new Point(84, 32);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(75, 23);
+            btnClear.TabIndex = 3;
+            btnClear.Text = "清除";
+            btnClear.UseVisualStyleBackColor = true;
+            btnClear.Click += btnClear_Click;
             // 
             // dgv
             // 
@@ -268,6 +281,7 @@ partial class MainForm
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.Size = new Size(784, 562);
             dgv.TabIndex = 2;
+            dgv.CellClick += dgv_CellClick;
             // 
             // flowLayoutPanel3
             // 
@@ -342,5 +356,6 @@ partial class MainForm
     private DataGridView dgv;
     private FlowLayoutPanel flowLayoutPanel3;
     private Label lblTotal;
-}
+        private Button btnClear;
+    }
 }
