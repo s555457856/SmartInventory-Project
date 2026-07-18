@@ -231,8 +231,8 @@ namespace SmartInventory
                 sb.AppendLine($"{k} 數量:{v[0]} 金額: {v[1]}");
             }
             //MessageBox.Show(sb.ToString(),"分類資訊");
-            var chartForm = new ChartForm();
-            chartForm.ShowDialog();
+            var chartForm = new ChartForm(all);
+            chartForm.Show();
         }
 
 
