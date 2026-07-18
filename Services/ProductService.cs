@@ -11,6 +11,34 @@ namespace SmartInventory.Services
     {
         public static readonly string[] Categories =
         {    "電子", "生活", "文具", "食品" };
+
+        public static (decimal,int) GetTotalValue(List<Product> all)
+        {
+            decimal total = 0;
+            int qty =0;
+
+            foreach (Product product in all)
+            {
+                total += product.TotalValue;
+                qty += product.Quantity;
+            }
+            return (total ,qty);
+        }
+        public static  List<Product> GatLowStock(List<Product> all,int lowStock =10)
+        {
+            
+            
+            var result = new List<Product>();
+            foreach (var p in all)
+            {
+                if (p.Quantity < lowStock)
+                {
+                    //Console.WriteLine($"{p.Name} {p.Quantity}");
+                    result.Add(p);
+                }
+            }
+            return result;
+        }
         public static List<Product> Search(List<Product> all, string keyword, string category)
         {
             // 1. 判斷是否為空字串
@@ -37,6 +65,6 @@ namespace SmartInventory.Services
             // 4.回應
             return result;
         }
-
+        // public static TotalValue
     }
 }
