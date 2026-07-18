@@ -73,8 +73,8 @@ namespace SmartInventory
             {
                 view.Add(p);
             }
-            var (total,qty) = ProductService.GetTotalValue(all);
-            lblTotal.Text =$"總庫存價值:{total} 總庫存數量:{qty}";
+            var (total, qty) = ProductService.GetTotalValue(all);
+            lblTotal.Text = $"總庫存價值:{total} 總庫存數量:{qty}";
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -204,8 +204,8 @@ namespace SmartInventory
         private void btnCheck_Click(object sender, EventArgs e)
         {
             int lowStock = (int)nudStockNum.Value;
-            var result =ProductService.GatLowStock(all,lowStock);
-            if (result.Count == 0) 
+            var result = ProductService.GatLowStock(all, lowStock);
+            if (result.Count == 0)
             {
                 MessageBox.Show("庫存狀況良好");
                 return;
@@ -219,6 +219,14 @@ namespace SmartInventory
             MessageBox.Show(lowStockStr);
 
         }
+
+        private void btnChart_Click(object sender, EventArgs e)
+        {
+            var stat = ProductService.Statistics(all);
+            Console.WriteLine();
+        }
+
+
 
 
         // ───── 以下方法 13-2 才會寫（按鈕事件可在 Designer 雙擊自動產生）─────

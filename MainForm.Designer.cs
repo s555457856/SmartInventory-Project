@@ -30,6 +30,7 @@ partial class MainForm
             cmbCategory = new ComboBox();
             btnCheck = new Button();
             nudStockNum = new NumericUpDown();
+            btnChart = new Button();
             tableLayoutPanel2 = new TableLayoutPanel();
             label6 = new Label();
             txtPrice = new TextBox();
@@ -65,6 +66,7 @@ partial class MainForm
             flowLayoutPanel1.Controls.Add(cmbCategory);
             flowLayoutPanel1.Controls.Add(btnCheck);
             flowLayoutPanel1.Controls.Add(nudStockNum);
+            flowLayoutPanel1.Controls.Add(btnChart);
             flowLayoutPanel1.Dock = DockStyle.Top;
             flowLayoutPanel1.Location = new Point(0, 0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -132,6 +134,16 @@ partial class MainForm
             nudStockNum.Size = new Size(120, 23);
             nudStockNum.TabIndex = 5;
             nudStockNum.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            // 
+            // btnChart
+            // 
+            btnChart.Location = new Point(631, 8);
+            btnChart.Name = "btnChart";
+            btnChart.Size = new Size(75, 23);
+            btnChart.TabIndex = 6;
+            btnChart.Text = "繪製圖示";
+            btnChart.UseVisualStyleBackColor = true;
+            btnChart.Click += btnChart_Click;
             // 
             // tableLayoutPanel2
             // 
@@ -378,5 +390,6 @@ partial class MainForm
         private Button btnClear;
         private ComboBox cmbInputCategory;
         private NumericUpDown nudStockNum;
+        private Button btnChart;
     }
 }
